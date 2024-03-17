@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 
 # Create the engine
 engine = create_engine('sqlite:///database.db', echo=True)  # echo=True for logging SQL statements
@@ -18,6 +17,12 @@ class User(Base):
 
     transactions = relationship("Transaction", back_populates="user")
 
+    def to_dict(self):
+        return {
+            "userid": self.userid,
+            "password": self.password
+        }
+
 
 class Transaction(Base):
     __tablename__ = 'transactions'
@@ -31,6 +36,13 @@ class Transaction(Base):
     user = relationship("User", back_populates="transactions")
     method = relationship("Method", back_populates="transactions")
 
+    def to_dict(self):
+        return {
+            "userid": self.userid,
+            "methodid": self.methodid,
+            "amount": self.amount
+        }
+
 
 class Method(Base):
     __tablename__ = 'methods'
@@ -40,6 +52,12 @@ class Method(Base):
     # Add more columns as needed
 
     transactions = relationship("Transaction", back_populates="method")
+
+    def to_dict(self):
+        return {
+            "methodid": self.methodid,
+            "name": self.name
+        }
 
 
 class DatabaseManager:
@@ -67,6 +85,14 @@ class DatabaseManager:
     def fetch_all_users(self):
         return self.session.query(User).all()
 
+    def fetch_user(self, userid):
+        return self.session.query(User).filter(User.userid == userid).first()
+
+    def add_user(self, userid, password):
+        user = User(userid=userid, password=password)
+        self.session.add(user)
+        self.session.commit()
+
     def fetch_all_transactions(self):
         return self.session.query(Transaction).all()
 
@@ -84,6 +110,18 @@ class DatabaseManager:
             query = query.filter(Transaction.methodid == methodid)
 
         return query.all()
+
+    def fetch_methods(self, methodid: int = None):
+        query = self.session.query(Method)
+        if methodid:
+            query = query.filter(Method.methodid == methodid)
+
+        return query.all()
+
+    def add_transaction(self, userid, methodid, amount):
+        transaction = Transaction(userid=userid, methodid=methodid, amount=amount)
+        self.session.add(transaction)
+        self.session.commit()
 
     def __del__(self):
         self.session.close()
