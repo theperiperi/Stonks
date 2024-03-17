@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+
+.fullbg {
+    background-color: #7C3BFC;
+    height: 30vh;
+    background-size: cover;
+
+    color: black;
+    font-family: "Monoton";
+
+}
+
+.logincard {
+    background-color: #00000080;
+    color: white;
+    height: 40vh;
+    width: 50vw;
+}
+
+.getstart {
+    font-size: 30px;
+    font-family: "Roboto";
+}
+
+.darkbg {
+    background-color: #343C44;
+    height: 100vh;
+}
+
+.logo {
+    height: 160px;
+    width: 180px;
+    padding-top: 12px;
+}
+
+.qote {
+    font-family: "Caveat";
+    font-size: 30px;
+    color: white;
+}
+
+.stonks {
+    font-size: 40px;
+    color: white;
+    font-style: italic;
+    font-family: "Monoton";
+}
+
+.bannerbg {
+    background-image: url("https://res.cloudinary.com/dh9qqukqp/image/upload/v1710333383/Screenshot_2024-03-13_180408_roatxq.png");
+    height: 70vh;
+    background-size: cover;
+}
+
+.custom-button {
+    background-color: #663dff;
+    background-image: linear-gradient(319deg, #663dff 0%, #aa00ff 37%, #cc4499 100%);
+    width: 130px;
+    height: 45px;
+    border-width: 0;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.logo4 {
+    height: 90px;
+    width: 80px;
+    padding-top: 12px;
+    border-radius: 15px;
+}
+
+.acc {
+    font-family: "Roboto";
+    font-size: 25px;
+    color: white;
+}
+
+.signcard {
+    border-radius: 15px;
+    background-color: #AC94F4;
+    height: 40vh;
+    width: 50vw;
+}
+
+#navitem1 {
+    color: white;
+    font-family: "Roboto";
+}
+
+#navitem2 {
+    color: white;
+    font-family: "Roboto";
+}
+
+#navitem3 {
+    color: white;
+    font-family: "Roboto";
+}
+
+#navitem4 {
+    color: white;
+    font-family: "Roboto";
+}
+
+.logo2 {
+    width: 80px;
+    height: 70px;
+    border-radius: 10px;
+}
+
+.darkbg {
+    background-color: #343C44;
+    height: 100vh;
+}
+
+.buttcard {
+    border-radius: 15px;
+    background-color: #343C44;
+}
+
+.btn-pink-gradient {
+    background-image: linear-gradient(to right, #f77ceb, #4f58f7);
+    border: none;
+    color: white;
+}
