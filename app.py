@@ -2,10 +2,16 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
 from dbms.db import DatabaseManager
+import gpay_transactions_api
+
+import numpy as np
+from fastapi import UploadFile
+from typing import Annotated
+
 
 app = FastAPI()
 database_manager = DatabaseManager()
-
+app.include_router(gpay_transactions_api.router)
 
 @app.get("/")
 def read_root():
@@ -74,8 +80,15 @@ def add_transaction(userid: int, methodid: int, amount: float):
         "code": 0
     })
 
+@app.get("/transactions/add_gpay")
+def add_gpay_transaction(userid: int, screenshot: Annotated[bytes, UploadFile]):
+    amounts = gpay_transactions_api.extract_transactions(screenshot)
+    for amount in amounts:
+        database_manager.add_transaction(userid=userid, methodid=1, amount=amount)
+    return JSONResponse({
+        "code": 0
+    })
 
 if __name__ == "__main__":
     import uvicorn
-
     uvicorn.run(app, host="0.0.0.0", port=8000)
