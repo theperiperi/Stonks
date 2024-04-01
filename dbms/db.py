@@ -13,6 +13,7 @@ class User(Base):
     __tablename__ = 'users'
 
     userid = Column(Integer, primary_key=True)
+    username = Column(String)
     password = Column(String)
 
     transactions = relationship("Transaction", back_populates="user")
@@ -20,6 +21,7 @@ class User(Base):
     def to_dict(self):
         return {
             "userid": self.userid,
+            "username": self.username,
             "password": self.password
         }
 
@@ -41,7 +43,8 @@ class Transaction(Base):
         return {
             "userid": self.userid,
             "methodid": self.methodid,
-            "amount": self.amount
+            "amount": self.amount,
+            "timestamp": self.timestamp
         }
 
 
@@ -49,7 +52,7 @@ class Method(Base):
     __tablename__ = 'methods'
 
     methodid = Column(Integer, primary_key=True)
-    name = Column(String)
+    method_name = Column(String)
     # Add more columns as needed
 
     transactions = relationship("Transaction", back_populates="method")
@@ -57,7 +60,7 @@ class Method(Base):
     def to_dict(self):
         return {
             "methodid": self.methodid,
-            "name": self.name
+            "method_name": self.name
         }
 
 
@@ -120,7 +123,7 @@ class DatabaseManager:
         return query.all()
 
     def add_transaction(self, userid, methodid, amount):
-        transaction = Transaction(userid=userid, methodid=methodid, amount=amount, )
+        transaction = Transaction(userid=userid, methodid=methodid, amount=amount, timestamp=func.now())
         self.session.add(transaction)
         self.session.commit()
 
