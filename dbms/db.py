@@ -1,6 +1,6 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, TIMESTAMP
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-
+from sqlalchemy.sql import func
 # Create the engine
 engine = create_engine('sqlite:///database.db', echo=True)  # echo=True for logging SQL statements
 
@@ -30,7 +30,8 @@ class Transaction(Base):
     transactionid = Column(Integer, primary_key=True)
     userid = Column(Integer, ForeignKey('users.userid'))
     methodid = Column(Integer, ForeignKey('methods.methodid'))
-    amount = Column(Integer)
+    amount = Column(Integer),
+    timestamp = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp())
     # Add more columns as needed
 
     user = relationship("User", back_populates="transactions")
@@ -119,7 +120,7 @@ class DatabaseManager:
         return query.all()
 
     def add_transaction(self, userid, methodid, amount):
-        transaction = Transaction(userid=userid, methodid=methodid, amount=amount)
+        transaction = Transaction(userid=userid, methodid=methodid, amount=amount, )
         self.session.add(transaction)
         self.session.commit()
 

@@ -1,7 +1,7 @@
 import sqlite3
 
 # Connect to the database
-conn = sqlite3.connect('database.db')
+conn = sqlite3.connect('dbms/database.db')
 cursor = conn.cursor()
 
 # Function to execute a query and print the output

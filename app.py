@@ -5,8 +5,10 @@ from dbms.db import DatabaseManager
 import gpay_transactions_api
 
 import numpy as np
-from fastapi import UploadFile
+from fastapi import File
 from typing import Annotated
+
+from pydantic import BaseModel
 
 
 app = FastAPI()
@@ -80,9 +82,13 @@ def add_transaction(userid: int, methodid: int, amount: float):
         "code": 0
     })
 
-@app.get("/transactions/add_gpay")
-def add_gpay_transaction(userid: int, screenshot: Annotated[bytes, UploadFile]):
-    amounts = gpay_transactions_api.extract_transactions(screenshot)
+class Amounts(BaseModel):
+    amounts: list
+
+
+@app.post("/transactions/add_gpay")
+def add_gpay_transaction(userid: int, amounts: Amounts):
+    amounts = amounts.amounts
     for amount in amounts:
         database_manager.add_transaction(userid=userid, methodid=1, amount=amount)
     return JSONResponse({
