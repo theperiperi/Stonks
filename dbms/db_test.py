@@ -18,7 +18,10 @@ while True:
     query = input("Enter a query (or 'exit' to quit): ")
     if query == 'exit':
         break
-    execute_query(query)
-
+    try:
+        execute_query(query)
+    except Exception as e:
+        print("Error encountered!")
+        print(f"{type(e).__name__}: {str(e)[:200]}")
 # Close the database connection
 conn.close()
