@@ -29,10 +29,10 @@ class User(Base):
 class Transaction(Base):
     __tablename__ = 'transactions'
 
-    transactionid = Column(Integer, primary_key=True)
+    transactionid = Column(Integer, primary_key=True, autoincrement=True)
     userid = Column(Integer, ForeignKey('users.userid'))
     methodid = Column(Integer, ForeignKey('methods.methodid'))
-    amount = Column(Integer),
+    amount = Column(Integer)
     timestamp = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp())
     # Add more columns as needed
 

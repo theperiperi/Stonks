@@ -1,0 +1,53 @@
+SELECT * FROM users;
+
+SELECT * FROM methods;
+
+SELECT * FROM transactions;
+
+UPDATE users SET password = 'new_password' WHERE userid = 1;
+
+DELETE FROM transactions WHERE transactionid = 1;
+
+SELECT * FROM users WHERE password LIKE '%abc%';
+
+SELECT * FROM transactions WHERE amount > 50;
+
+SELECT * FROM users WHERE userid IN (SELECT userid FROM transactions WHERE methodid = (SELECT methodid FROM methods WHERE method_name = 'Cash'));
+
+SELECT * FROM methods WHERE methodid IN (SELECT methodid FROM transactions WHERE userid = 1);
+
+SELECT SUM(amount) AS total_amount FROM transactions;
+
+SELECT AVG(amount) AS average_amount FROM transactions;
+
+SELECT MAX(timestamp) AS latest_transaction FROM transactions;
+
+SELECT COUNT(*) AS user_count FROM users;
+
+SELECT userid, COUNT(*) AS transaction_count FROM transactions GROUP BY userid;
+
+SELECT u.userid, u.password, t.transactionid, t.methodid, t.amount FROM users u INNER JOIN transactions t ON u.userid = t.userid;
+
+SELECT * FROM users WHERE userid NOT IN (SELECT userid FROM transactions);
+
+SELECT * FROM users WHERE userid IN (SELECT userid FROM transactions WHERE methodid = (SELECT methodid FROM methods WHERE method_name = 'Card'));
+
+SELECT * FROM transactions WHERE amount BETWEEN 50 AND 100;
+
+SELECT * FROM users WHERE userid IN (SELECT userid FROM transactions WHERE timestamp > '2024-01-01');
+
+SELECT m.method_name, COUNT(*) AS transaction_count FROM methods m INNER JOIN transactions t ON m.methodid = t.methodid GROUP BY m.methodid;
+
+SELECT userid, AVG(amount) AS average_transaction_amount FROM transactions GROUP BY userid;
+
+SELECT u.userid, u.password, SUM(t.amount) AS total_transaction_amount FROM users u INNER JOIN transactions t ON u.userid = t.userid GROUP BY u.userid;
+
+SELECT u.userid, u.password, SUM(t.amount) AS total_transaction_amount FROM users u INNER JOIN transactions t ON u.userid = t.userid GROUP BY u.userid ORDER BY total_transaction_amount DESC LIMIT 1;
+
+SELECT m.method_name, SUM(t.amount) AS total_transaction_amount FROM methods m INNER JOIN transactions t ON m.methodid = t.methodid GROUP BY m.methodid ORDER BY total_transaction_amount DESC LIMIT 1;
+
+SELECT * FROM transactions WHERE userid = ( SELECT u.userid FROM users u INNER JOIN transactions t ON u.userid = t.userid GROUP BY u.userid ORDER BY SUM(t.amount) DESC LIMIT 1 );
+
+SELECT m.method_name, SUM(t.amount) AS total_transaction_amount FROM methods m INNER JOIN transactions t ON m.methodid = t.methodid GROUP BY m.methodid ORDER BY total_transaction_amount ASC LIMIT 1;
+
+SELECT u.userid, u.password, COUNT(*) AS transaction_count FROM users u INNER JOIN transactions t ON u.userid = t.userid WHERE t.timestamp >= DATE('now', '-1 month') GROUP BY u.userid;
