@@ -10,16 +10,21 @@ from typing import Annotated
 
 from pydantic import BaseModel
 
-
 app = FastAPI()
 database_manager = DatabaseManager()
 app.include_router(gpay_transactions_api.router)
+
 
 @app.get("/")
 def read_root():
     return JSONResponse({
         "response": "Hello World"
     })
+
+
+@app.get("/urls")
+def url_schema():
+    return app.openapi().get("paths")
 
 
 @app.get("/user/authorize")
@@ -82,6 +87,7 @@ def add_transaction(userid: int, methodid: int, amount: float):
         "code": 0
     })
 
+
 class Amounts(BaseModel):
     amounts: list
 
@@ -95,6 +101,8 @@ def add_gpay_transaction(userid: int, amounts: Amounts):
         "code": 0
     })
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
